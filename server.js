@@ -75,7 +75,7 @@ server.on('listening', () => console.log(`Servidor ejecuntado`));
 
 const config = {
 	user: "admin",
-	host: "dpg-cg3n7kqk728j7kn1bb0g-a",
+	host: "localhost",
 	password: "klbBWrU2Z7GMSdg31eYmtYV9Z2qE5rUr",
 	database: "files_um9q",
 	port: 5432
@@ -104,7 +104,7 @@ const text = `
 	    PRIMARY KEY ("id")
     );`;
 
-execute(text).then(result => {
+execute(text).then((result) => {
     if (result) {
         console.log('Table created');
     }
