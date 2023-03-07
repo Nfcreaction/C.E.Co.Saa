@@ -79,11 +79,12 @@
   				});
 
 				$("#Send").click(()=>{
-					
 					$.post("/noticia", {
-						nota: $("#editor").find("p")
+						titulo: $("#editor").find("h1").text(),
+						subtitulo: $("#editor").find("h2").text(),
+						nota: $("#editor").find("p").text()
 					}, ()=>{
-						
+						console.log("Noticia subida")
 					})
 				})			
 			})

@@ -1,6 +1,7 @@
-const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const express = require('express')
+const mysql = require('mysql')
 const https = require('https')
 const path = require('path')
 const http = require('http')
@@ -63,11 +64,25 @@ app.route("/login")
 
 })
 
-app.post("/noticia/", (req, res)=>{
-	console.log(req.body.nota)
+app.post("/noticia", (req, res)=>{
+	console.log(req.body)
 	res.end()
 })
 
 
 server.listen(10000);
 server.on('listening', () => console.log(`Servidor ejecuntado`));	
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  con.query("CREATE DATABASE mydb", function (err, result) {
+    if (err) throw err;
+    console.log("Database created");
+  });
+});
