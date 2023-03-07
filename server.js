@@ -1,7 +1,7 @@
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const express = require('express')
-const mysql = require('mysql')
+const {Pool} = require('pg')
 const https = require('https')
 const path = require('path')
 const http = require('http')
@@ -73,16 +73,39 @@ app.post("/noticia", (req, res)=>{
 server.listen(10000);
 server.on('listening', () => console.log(`Servidor ejecuntado`));	
 
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "root"
-});
+const config = {
+	user: "admin",
+	host: "dpg-cg3n7kqk728j7kn1bb0g-a",
+	password: "klbBWrU2Z7GMSdg31eYmtYV9Z2qE5rUr",
+	database: "files_um9q",
+	port: 5432
+}
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-  con.query("CREATE DATABASE mydb", function (err, result) {
-    if (err) throw err;
-    console.log("Database created");
-  });
+const db = new Pool(config)
+
+const execute = async (query) => {
+    try {
+        await db.connect();     // gets connection
+        await db.query(query);  // sends queries
+        return true;
+    } catch (error) {
+        console.error(error.stack);
+        return false;
+    } finally {
+        await db.end();         // closes connection
+    }
+};
+
+const text = `
+    CREATE TABLE IF NOT EXISTS "users" (
+	    "id" SERIAL,
+	    "name" VARCHAR(100) NOT NULL,
+	    "role" VARCHAR(15) NOT NULL,
+	    PRIMARY KEY ("id")
+    );`;
+
+execute(text).then(result => {
+    if (result) {
+        console.log('Table created');
+    }
 });
