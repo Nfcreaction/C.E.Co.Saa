@@ -6,8 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Centro de estudiantes ET 17 DE 13 Brig. Gral. Cornelio Saavedra</title>
 	<link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet">	
-	  <link rel="icon" type="image/x-icon" href="/logo.png">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="icon" type="image/x-icon" href="/logo.png">
 	<link rel="author" href="Ignacio Fernandez">
 </head>
 <body>
@@ -46,17 +45,7 @@
 				</h3>
 
 				<article class="blog-post border-bottom pb-4 mb-3" id="noticias">
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">Centro de estudiantes 2023</h5>
-									<p class="card-text">El centro de estudiantes reinicia sus actividades.</p>
-									<a href="#" class="btn btn-primary">Leer</a>
-								</div>
-							</div>
-						</div>
-					</div>					
+					<div class="row noticias"></div>					
 				</article>
 				<h3 class="pb-4 mb-4 fst-italic border-bottom">
 					Actas
@@ -127,5 +116,25 @@
 	background-size: auto;
 }	
 </style>
-<script src="js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script>
+	$("document").ready(()=>{
+		$.get("/noticias", (result)=>{
+			for (var i = 0; i < result.length; i++) {
+				$(".noticias").append(`
+					<div class="col-sm-6">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">${result[i]["titulo"]}</h5>
+								<p class="card-text">El centro de estudiantes reinicia sus actividades.</p>
+								<a href="#" class="btn btn-primary">Leer</a>
+							</div>
+						</div>
+					</div>
+				`)
+			}
+				
+		})
+	})
+</script>
 </html>

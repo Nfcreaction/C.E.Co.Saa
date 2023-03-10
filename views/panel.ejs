@@ -79,7 +79,7 @@
   				});
 
 				$("#Send").click(()=>{
-					$.post("/noticia", {
+					$.post("/noticia/subir", {
 						titulo: $("#editor").find("h1").text(),
 						subtitulo: $("#editor").find("h2").text(),
 						nota: $("#editor").find("p").text()

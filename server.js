@@ -1,14 +1,16 @@
+//modules
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const express = require('express')
-const {Pool} = require('pg')
 const https = require('https')
+const mysql = require('mysql')
 const path = require('path')
 const http = require('http')
 const ejs = require('ejs')
 const app = express()
 const server = http.createServer(app);
 
+//set
 app.use(express.json())
 app.use(cookieParser());
 app.use(bodyParser.json())
@@ -17,95 +19,100 @@ app.set('views', __dirname + '/views')
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
-
+//routes
 app.route("/")
 .get((req, res)=>{
 	res.render("index");
-});
-
-
-var Pass = "et17de13"
+})
 
 app.route("/panel")
 .get((req, res)=>{
-	if (req.cookies.access == "true") {
+	if(req.cookies.access == "true"){
 		res.render("panel")
-	} else{
-		res.render("login")
+	} else {
+		res.redirect("/login")
 	}
 })
 
+app.post("/noticia/subir", (req, res)=>{
+
+	let sql = `INSERT INTO noticias (titulo, subtitulo, nota) VALUES ('${req.body.titulo}', '${req.body.subtitulo}', '${req.body.nota}')`
+	db.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log("Noticia subida")
+	})
+})
+
+app.get("/noticias", (req, res)=>{
+	db.query("SELECT * FROM noticias", (err, result)=>{
+		if(err) throw err;
+		res.json(result)
+	})
+})
+
+
 app.route("/login")	
 .get((req, res)=>{
-	res.render("login")
+	res.render("login", {
+		msg: ""
+	})
 })
+
 .post((req, res)=>{
 	let user = req.body.user
 	let pass = req.body.pass
 
-	if (pass = Pass) {
-		res.cookie('access', true, {
-		  maxAge: 60 * 60 * 1000, // Duración de una hora
-		  httpOnly: true, // Protocolo http
-		  secure: true, // Conexión segura https
-		  sameSite: true, // No se enviará en peticiones cross-site
-		});
-		res.cookie('User', req.body.user, {
-		  maxAge: 60 * 60 * 1000, // Duración de una hora
-		  httpOnly: true, // Protocolo http
-		  secure: true, // Conexión segura https
-		  sameSite: true, // No se enviará en peticiones cross-site
-		});		
-		res.redirect("/panel")
-
+	if(user != "" & pass != "") {
+		console.log("Hay datos")
 	} else {
-		res.render("login")
-	}
-
+		res.render("login", {
+			msg: "Complete los campos"
+		})
+	}	
+	db.query("SELECT * FROM admin", (err, result)=>{
+		if(err) throw err;
+		if (result[0].usuario == user) {
+			if (result[0].password == pass) {
+				res.cookie('access', true, {
+				  maxAge: 60 * 60 * 1000, // Duración de una hora
+				  httpOnly: true, // Protocolo http
+				  secure: true, // Conexión segura https
+				  sameSite: true, // No se enviará en peticiones cross-site
+				});
+				res.cookie('User', req.body.user, {
+				  maxAge: 60 * 60 * 1000, // Duración de una hora
+				  httpOnly: true, // Protocolo http
+				  secure: true, // Conexión segura https
+				  sameSite: true, // No se enviará en peticiones cross-site
+				});		
+				res.redirect("/panel")
+			} else {
+				res.render("login", {
+					msg: "Los datos ingresados no son correctos"
+				})
+			}
+		} else {
+			res.render("login", {
+				msg: "Los datos ingresados no son correctos"
+			})
+		}
+	})		
 })
 
-app.post("/noticia", (req, res)=>{
-	console.log(req.body)
-	res.end()
-})
-
-
-server.listen(10000);
-server.on('listening', () => console.log(`Servidor ejecuntado`));	
-
+//db
 const config = {
-	user: "admin",
-	host: "localhost",
-	password: "klbBWrU2Z7GMSdg31eYmtYV9Z2qE5rUr",
-	database: "files_um9q",
-	port: 5432
+	host: "195.181.163.8",
+	port: "3306", 
+	user: "root",
+	database: "C.E.Co.Saa"
 }
+const db = mysql.createConnection(config)
+db.connect((err)=>{
+	if (err) throw err
+	console.log("Base de datos conectada")
+})
 
-const db = new Pool(config)
-
-const execute = async (query) => {
-    try {
-        await db.connect();     // gets connection
-        await db.query(query);  // sends queries
-        return true;
-    } catch (error) {
-        console.error(error.stack);
-        return false;
-    } finally {
-        await db.end();         // closes connection
-    }
-};
-
-const text = `
-    CREATE TABLE IF NOT EXISTS "users" (
-	    "id" SERIAL,
-	    "name" VARCHAR(100) NOT NULL,
-	    "role" VARCHAR(15) NOT NULL,
-	    PRIMARY KEY ("id")
-    );`;
-
-execute(text).then((result) => {
-    if (result) {
-        console.log('Table created');
-    }
+//init server
+server.listen(10000, ()=>{
+	console.log("Servidor ejecutando en el puerto 10000")
 });
