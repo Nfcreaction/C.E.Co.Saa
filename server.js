@@ -101,8 +101,8 @@ app.route("/login")
 
 //db
 const config = {
-	host: "195.181.163.8",
-	port: "3306", 
+	host: "localhost",
+	port: "3306",
 	user: "root",
 	database: "C.E.Co.Saa"
 }
