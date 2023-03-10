@@ -113,6 +113,7 @@ db.connect((err)=>{
 })
 
 //init server
-server.listen(10000, ()=>{
+server.listen(80, "172.26.5.23")
+server.on(()=>{
 	console.log("Servidor ejecutando en el puerto 10000")
-});
+})
