@@ -104,7 +104,7 @@ const config = {
 	host: "localhost",
 	port: "3306",
 	user: "root",
-	database: "C.E.Co.Saa"
+	database: "centro"
 }
 const db = mysql.createConnection(config)
 db.connect((err)=>{
