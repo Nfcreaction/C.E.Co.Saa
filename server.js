@@ -55,7 +55,11 @@ app.get("/noticia/:titulo", (req, res)=>{
 	let sql = `SELECT ${req.parser.titulo} FROM noticias`
 	de.query(sql, (err, result)=>{
 		if (err) throw err;
-		res.json(result)
+		res.render("noticia", {
+			titulo: result[0]["titulo"],
+			subtitulo: result[0]["subtitulo"],
+			nota: result[0]["nota"]
+		})
 	})
 })
 
