@@ -73,18 +73,9 @@ app.route("/login")
 		if(err) throw err;
 		if (result[0].usuario == user) {
 			if (result[0].password == pass) {
-				res.cookie('access', true, {
-				  maxAge: 60 * 60 * 1000, // Duración de una hora
-				  httpOnly: true, // Protocolo http
-				  secure: true, // Conexión segura https
-				  sameSite: true, // No se enviará en peticiones cross-site
-				});
-				res.cookie('User', req.body.user, {
-				  maxAge: 60 * 60 * 1000, // Duración de una hora
-				  httpOnly: true, // Protocolo http
-				  secure: true, // Conexión segura https
-				  sameSite: true, // No se enviará en peticiones cross-site
-				});		
+				res.cookie('acces', 'true', {
+				  maxAge: 60 * 60 * 1000,
+				}
 				res.redirect("/panel")
 			} else {
 				res.render("login", {
@@ -113,7 +104,7 @@ db.connect((err)=>{
 })
 
 //init server
-server.listen(80, "172.26.5.23")
+server.listen(80)
 server.on(()=>{
-	console.log("Servidor ejecutando en el puerto 10000")
+	console.log("Servidor ejecutando en el puerto 80")
 })
