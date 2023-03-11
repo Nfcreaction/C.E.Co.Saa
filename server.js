@@ -51,6 +51,7 @@ app.get("/noticias", (req, res)=>{
 })
 
 app.get("/noticia/:titulo", (req, res)=>{
+	console.log(req.parser.titulo)
 	let sql = `SELECT ${req.parser.titulo} FROM noticias`
 	de.query(sql, (err, result)=>{
 		if (err) throw err;
