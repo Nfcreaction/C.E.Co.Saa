@@ -50,9 +50,9 @@ app.get("/noticias", (req, res)=>{
 	})
 })
 
-app.get("/noticia/:titulo", (req, res)=>{
-	let sql = `SELECT ${req.parser.titulo} FROM noticias`
-	de.query(sql, (err, result)=>{
+app.get("/noticia/:id", (req, res)=>{
+	let sql = `SELECT * FROM noticias WHERE _id=${req.params.id}`
+	db.query(sql, (err, result)=>{
 		if (err) throw err;
 		res.json(result)
 	})
@@ -112,7 +112,7 @@ db.connect((err)=>{
 })
 
 //init server
-server.listen(8080)
+server.listen(80)
 server.on("listening", ()=>{
 	console.log("Servidor ejecutando en el puerto 80")
 })
