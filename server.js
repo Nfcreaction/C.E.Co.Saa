@@ -50,11 +50,22 @@ app.get("/noticias", (req, res)=>{
 	})
 })
 
+<<<<<<< HEAD
 app.get("/noticia/:id", (req, res)=>{
 	let sql = `SELECT * FROM noticias WHERE _id=${req.params.id}`
 	db.query(sql, (err, result)=>{
+=======
+app.get("/noticia/:titulo", (req, res)=>{
+	console.log(req.parser.titulo)
+	let sql = `SELECT * FROM noticias WHERE _id=${req.parser.titulo}`
+	de.query(sql, (err, result)=>{
+>>>>>>> 87f9b950af294d8629e8aaf5d5f889fec7a2f5c2
 		if (err) throw err;
-		res.json(result)
+		res.render("noticia", {
+			titulo: result[0]["titulo"],
+			subtitulo: result[0]["subtitulo"],
+			nota: result[0]["nota"]
+		})
 	})
 })
 
