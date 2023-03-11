@@ -105,6 +105,6 @@ db.connect((err)=>{
 
 //init server
 server.listen(80)
-server.on(()=>{
+server.on("listening", ()=>{
 	console.log("Servidor ejecutando en el puerto 80")
 })
