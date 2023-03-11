@@ -44,9 +44,11 @@ app.post("/noticia/subir", (req, res)=>{
 })
 
 app.get("/noticias", (req, res)=>{
+	console.log("Noticia pedida")
 	db.query("SELECT * FROM noticias", (err, result)=>{
 		if(err) throw err;
 		res.json(result)
+		console.log("Noticia pedida y enviada")
 	})
 })
 
@@ -68,23 +70,12 @@ app.route("/login")
 		res.render("login", {
 			msg: "Complete los campos"
 		})
-	}	
+	}
 	db.query("SELECT * FROM admin", (err, result)=>{
 		if(err) throw err;
-		if (result[0].usuario == user) {
-			if (result[0].password == pass) {
-				res.cookie('access', true, {
-				  maxAge: 60 * 60 * 1000, // Duración de una hora
-				  httpOnly: true, // Protocolo http
-				  secure: true, // Conexión segura https
-				  sameSite: true, // No se enviará en peticiones cross-site
-				});
-				res.cookie('User', req.body.user, {
-				  maxAge: 60 * 60 * 1000, // Duración de una hora
-				  httpOnly: true, // Protocolo http
-				  secure: true, // Conexión segura https
-				  sameSite: true, // No se enviará en peticiones cross-site
-				});		
+		if (result[0].user == user) {
+			if (result[0].pass == pass) {
+				res.cookie('access', 'true');
 				res.redirect("/panel")
 			} else {
 				res.render("login", {
@@ -96,15 +87,15 @@ app.route("/login")
 				msg: "Los datos ingresados no son correctos"
 			})
 		}
-	})		
+	})
 })
 
 //db
 const config = {
 	host: "localhost",
-	port: "3306",
 	user: "root",
-	database: "C.E.Co.Saa"
+	port: "3306",
+	database: "centro",
 }
 const db = mysql.createConnection(config)
 db.connect((err)=>{
@@ -113,7 +104,7 @@ db.connect((err)=>{
 })
 
 //init server
-server.listen(80, "172.26.5.23")
-server.on(()=>{
+server.listen(80)
+server.on("listening", ()=>{
 	console.log("Servidor ejecutando en el puerto 10000")
 })
