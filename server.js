@@ -27,7 +27,7 @@ app.route("/")
 
 app.route("/panel")
 .get((req, res)=>{
-	if(req.cookies.access == "true"){
+	if(req.cookies.acces == "true"){
 		res.render("panel")
 	} else {
 		res.redirect("/login")

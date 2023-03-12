@@ -80,9 +80,9 @@
 
 				$("#Send").click(()=>{
 					$.post("/noticia/subir", {
-						titulo: $("#editor").find("h1").text(),
-						subtitulo: $("#editor").find("h2").text(),
-						nota: $("#editor").find("p").text()
+						titulo: $("#editor").find("h1").html(),
+						subtitulo: $("#editor").find("h3").html(),
+						nota: $("#editor").find("p").html()
 					}, ()=>{
 						console.log("Noticia subida")
 					})
