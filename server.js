@@ -50,9 +50,9 @@ app.get("/noticias", (req, res)=>{
 	})
 })
 
-app.get("/noticia/:titulo", (req, res)=>{
-	console.log(req.parser.titulo)
-	let sql = `SELECT * FROM noticias WHERE _id=${req.parser.titulo}`
+app.get("/noticia/:id", (req, res)=>{
+	console.log(req.params.titulo)
+	let sql = `SELECT * FROM noticias WHERE _id=${req.params.id}`
 	de.query(sql, (err, result)=>{
 		if (err) throw err;
 		res.render("noticia", {
