@@ -79,6 +79,9 @@
   				});
 
 				$("#Send").click(()=>{
+					console.log(`
+						${$("#editor").find("h1").html()}
+					`)
 					$.post("/noticia/subir", {
 						titulo: $("#editor").find("h1").html(),
 						subtitulo: $("#editor").find("h3").html(),
