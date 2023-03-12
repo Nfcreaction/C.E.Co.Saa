@@ -83,9 +83,11 @@ app.route("/login")
 	}	
 	db.query("SELECT * FROM admin", (err, result)=>{
 		if(err) throw err;
-		if (result[0].usuario == user) {
-			if (result[0].password == pass) {
-				res.cookie('acces', 'true')
+		if (result[0].user == user) {
+			if (result[0].pass == pass) {
+				res.cookie('acces', 'true', {
+				  maxAge: 60 * 60 * 1000,
+				})
 				res.redirect("/panel")
 			} else {
 				res.render("login", {
