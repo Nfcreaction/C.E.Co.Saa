@@ -55,11 +55,7 @@ app.get("/noticia/:id", (req, res)=>{
 	let sql = `SELECT * FROM noticias WHERE _id=${req.params.id}`
 	de.query(sql, (err, result)=>{
 		if (err) throw err;
-		res.render("noticia", {
-			titulo: result[0]["titulo"],
-			subtitulo: result[0]["subtitulo"],
-			nota: result[0]["nota"]
-		})
+		res.render("noticia")
 	})
 })
 
