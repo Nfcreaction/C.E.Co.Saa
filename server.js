@@ -27,6 +27,10 @@ app.route("/")
 
 app.route("/panel")
 .get((req, res)=>{
+<<<<<<< HEAD
+=======
+	console.log(req.cookies.acces)
+>>>>>>> d7d812d30fac547e917f08ae87893569954fe9dc
 	if(req.cookies.acces == "true"){
 		res.render("panel")
 	} else {
@@ -85,7 +89,7 @@ app.route("/login")
 		if(err) throw err;
 		if (result[0].user == user) {
 			if (result[0].pass == pass) {
-				res.cookie('acces', 'true', {
+				res.cookie('acces', "true", {
 				  maxAge: 60 * 60 * 1000,
 				})
 				res.redirect("/panel")
