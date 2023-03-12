@@ -85,9 +85,7 @@ app.route("/login")
 		if(err) throw err;
 		if (result[0].usuario == user) {
 			if (result[0].password == pass) {
-				res.cookie('acces', 'true', {
-				  maxAge: 60 * 60 * 1000,
-				})
+				res.cookie('acces', 'true')
 				res.redirect("/panel")
 			} else {
 				res.render("login", {
