@@ -51,7 +51,6 @@ app.get("/noticias", (req, res)=>{
 })
 
 app.get("/noticia/:id", (req, res)=>{
-	console.log(req.params.titulo)
 	let sql = `SELECT * FROM noticias WHERE _id=${req.params.id}`
 	db.query(sql, (err, result)=>{
 		if (err) throw err;
