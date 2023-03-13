@@ -27,10 +27,7 @@ app.route("/")
 
 app.route("/panel")
 .get((req, res)=>{
-<<<<<<< HEAD
-=======
 	console.log(req.cookies.acces)
->>>>>>> d7d812d30fac547e917f08ae87893569954fe9dc
 	if(req.cookies.acces == "true"){
 		res.render("panel")
 	} else {
